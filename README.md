@@ -1,7 +1,7 @@
 # Ganjoor API - Swift
 Ganjoor.net REST API done in swift
 
-## Local Development -
+## Local Development
 [Database](https://github.com/ganjoor/ganjoor-db) is needed for local development.
 
 ### MacOS
