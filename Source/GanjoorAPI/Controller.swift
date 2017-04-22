@@ -26,6 +26,10 @@ import Credentials
 
 public class Controller {
     
+    public enum initError: Error {
+        case databaseConnectionFail
+    }
+    
     let router: Router
     let appEnv: AppEnv
     var jsonEndpointEnabled: Bool = true
@@ -43,7 +47,12 @@ public class Controller {
     init() throws {
         appEnv = try CloudFoundryEnv.getAppEnv()
         let connected = connection.connect(host: "mysql", user: "root", password: "root", db: "ganjoor")
-        print(connected ? "yes" : "no")
+        if connected {
+            Log.debug("GanjoorAPI is Up and Running")
+        }else{
+            throw initError.databaseConnectionFail
+        }
+        
         router = Router()
     
         router.all("categories", handler: categories)
