@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  app:
+   image: swiftdocker/swift:latest
+   ports:
+     - "7080:7080"
+   volumes:
+     - .:/root/GanjoorAPI
+   command: bash -c "cd /root/GanjoorAPI && apt -y update && apt -y upgrade && apt -y install clang libicu-dev libcurl4-openssl-dev libssl-dev libmysqlclient-dev && swift build && ./.build/debug/GanjoorAPI"
+   links:
+     - db:mysql
+   depends_on:
+     - db
+ 
+  db:
+   image: ganjoor/ganjoor-db
+   ports:
+     - "3306:3306"
+   environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: ganjoor
