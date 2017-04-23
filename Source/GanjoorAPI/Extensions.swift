@@ -11,6 +11,7 @@ import KituraRequest
 import SwiftyJSON
 import Kitura
 import Axis
+import LoggerAPI
 
 // MARK: MYSQL
 extension MySQL {
@@ -103,3 +104,19 @@ extension UInt8  : NumericType { }
 extension UInt16 : NumericType { }
 extension UInt32 : NumericType { }
 extension UInt64 : NumericType { }
+
+extension RouterResponse {
+
+    @discardableResult
+    public func sendutf8(json: JSON) -> RouterResponse {
+        do {
+            let jsonData = try json.rawData(options:.prettyPrinted)
+            headers.setType("json", charset: "utf-8")
+            send(data: jsonData)
+        } catch {
+            Log.warning("Failed to convert JSON for sending: \(error.localizedDescription)")
+        }
+        
+        return self
+    }
+}

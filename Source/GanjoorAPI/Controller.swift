@@ -48,6 +48,7 @@ public class Controller {
         appEnv = try CloudFoundryEnv.getAppEnv()
         let connected = connection.connect(host: "mysql", user: "root", password: "root", db: "ganjoor")
         if connected {
+            _ = connection.query(statement: "SET CHARACTER SET utf8")
             Log.debug("GanjoorAPI is Up and Running")
         }else{
             throw initError.databaseConnectionFail
