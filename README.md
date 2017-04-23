@@ -45,6 +45,6 @@ $ docker-compose up
 ```
 
 This might take a while, wait until you see "GanjoorAPI is Up and Running" Which means everything went as expected.
-open [http://localhost:7080/](http://localhost:7080/), if you see kitura start page. you are good to go.
+you can see the list of acceptable requests [here](https://github.com/ganjoor/GanjoorAPI-Swift/wiki/Requests)
 
 This software is released under the [MIT License](LICENSE).
