@@ -21,12 +21,12 @@ import LoggerAPI
 import CloudFoundryEnv
 import KituraRequest
 import Dispatch
-import CredentialsHTTP
+import JWT
 import Credentials
 
 public class Controller {
     
-    public enum initError: Error {
+    public enum initError: Swift.Error {
         case databaseConnectionFail
     }
     
@@ -46,16 +46,25 @@ public class Controller {
     
     init() throws {
         appEnv = try CloudFoundryEnv.getAppEnv()
-        let connected = connection.connect(host: "mysql", user: "root", password: "root", db: "ganjoor")
+        let connected = connection.connect(host: "127.0.0.1", user: "root", password: "root", db: "ganjoor")
         if connected {
             _ = connection.query(statement: "SET CHARACTER SET utf8")
-            Log.debug("GanjoorAPI is Up and Running")
+            Log.debug("GanjoorAPI is connected to database")
         }else{
             throw initError.databaseConnectionFail
         }
         
         router = Router()
-    
+        
+        let credentials = Credentials()
+        let jwt = JWTCredentials(secret: "secret")
+        credentials.register(plugin: jwt)
+        
+        //        uncomment the line bellow if you want to generate new token on server start
+        //        Log.info("new token with accessLevel developer: \(jwt.generateToken(accessLevel: .developer))")
+        
+        router.all("", middleware: credentials)
+        
         router.all("categories", handler: categories)
         router.all("categories/", handler: category)
         router.all("topCategories", handler: topCategories)
@@ -63,10 +72,11 @@ public class Controller {
         
         router.all("poets", handler: poets)
         router.all("poets/", handler: poet)
-
+        
         router.all("poems/byCategory/", handler: poemsByCategory)
         router.all("poems/", handler: poem)
         
         router.all("verses/byPoem/", handler: verses)
     }
 }
+

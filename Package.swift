@@ -29,7 +29,8 @@ let package = Package(
         .Package(url: "https://github.com/IBM-Swift/Swift-cfenv.git", majorVersion: 2),
         .Package(url: "https://github.com/IBM-Swift/Kitura-Request.git", majorVersion: 0, minor: 8),
         .Package(url: "https://github.com/IBM-Swift/Kitura-CredentialsHTTP.git", majorVersion: 1),
-        .Package(url: "https://github.com/Zewo/Axis.git", majorVersion: 0, minor: 14)
+        .Package(url: "https://github.com/Zewo/Axis.git", majorVersion: 0, minor: 14),
+        .Package(url: "https://github.com/kylef/JSONWebToken.swift.git", majorVersion: 2, minor: 1)
     ],
     exclude: ["Makefile", "Package-Builder"])
 #else
@@ -45,7 +46,8 @@ let package = Package(
         .Package(url: "https://github.com/IBM-Swift/Swift-cfenv.git", majorVersion: 2),
         .Package(url: "https://github.com/IBM-Swift/Kitura-Request.git", majorVersion: 0, minor: 8),
         .Package(url: "https://github.com/IBM-Swift/Kitura-CredentialsHTTP.git", majorVersion: 1),
-        .Package(url: "https://github.com/Zewo/Axis.git", majorVersion: 0, minor: 14)
+        .Package(url: "https://github.com/Zewo/Axis.git", majorVersion: 0, minor: 14),
+        .Package(url: "https://github.com/kylef/JSONWebToken.swift.git", majorVersion: 2, minor: 1)
     ],
     exclude: ["Makefile", "Package-Builder"])
 #endif
