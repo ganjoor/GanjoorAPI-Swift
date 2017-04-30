@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-   image: ganjoorswiftapi
+   image: euwars/ganjoorapiswift:latest
    ports:
      - "7080:7080"
    links:
