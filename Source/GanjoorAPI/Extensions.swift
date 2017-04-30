@@ -27,6 +27,12 @@ extension MySQL {
 
 // MARK: Kitura
 extension RouterRequest {
+    
+    enum valueSource {
+        case header
+        case parameter
+    }
+
     enum RequestError: LocalizedError {
         var errorDescription: String? {
             switch self {
@@ -40,10 +46,16 @@ extension RouterRequest {
         case type(String, String)
     }
     
-    func valuedNumeric<T: NumericType>(parameter: String) throws -> T {
+    func valuedNumeric<T: NumericType>(parameter: String, source: valueSource) throws -> T {
         let genericType = "\(T.self)".split(separator: ".").first!
-        
-        if let parameterIsThere = self.queryParameters[parameter] {
+        var p: String?
+        switch source {
+        case .header:
+            p = self.headers[parameter]
+        default:
+            p = self.queryParameters[parameter]
+        }
+        if let parameterIsThere = p {
             switch genericType {
             case "Double":
                 if let converted = Double(parameterIsThere) {
@@ -65,11 +77,16 @@ extension RouterRequest {
         }
     }
     
-    func valued<T>(parameter: String) throws -> T {
+    func valued<T>(parameter: String, source: valueSource) throws -> T {
         let genericType = "\(T.self)".split(separator: ".").first!
-        
-        if let parameterIsThere = self.queryParameters[parameter] {
-            switch genericType {
+        var p: String?
+        switch source {
+        case .header:
+            p = self.headers[parameter]
+        default:
+            p = self.queryParameters[parameter]
+        }
+        if let parameterIsThere = p {            switch genericType {
             case "String":
                 return "\(parameterIsThere)" as! T
             case "Bool":

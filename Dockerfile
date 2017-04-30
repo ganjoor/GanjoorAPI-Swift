@@ -1,4 +1,4 @@
-FROM ibmcom/swift-ubuntu:3.1
+FROM swiftdocker/swift:latest
 MAINTAINER Farzad Nazifi
 LABEL Description="GanjoorAPI written in swift."
 
@@ -9,10 +9,13 @@ RUN mkdir /root/GanjoorAPI
 
 ADD Source /root/GanjoorAPI/Source
 ADD Package.swift /root/GanjoorAPI
-ADD Package.pins /root/GanjoorAPI
-ADD .swift-version /root/GanjoorAPI
 
-RUN cd /root/GanjoorAPI && swift build
+RUN apt-get -q update && \
+    apt-get -q install -y
+RUN swift --version
+RUN cd /root/GanjoorAPI
+RUN apt -y install libicu-dev libcurl4-openssl-dev libssl-dev libmysqlclient-dev libpq-dev
+RUN cd /root/GanjoorAPI && swift build -Xcc -I/usr/include/postgresql/
 
 USER root
 #CMD ["/root/GanjoorAPI/.build/debug/GanjoorAPI"]

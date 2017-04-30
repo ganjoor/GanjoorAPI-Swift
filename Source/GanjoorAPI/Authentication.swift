@@ -43,18 +43,19 @@ public class JWTCredentials: CredentialsPluginProtocol {
                              onFailure: @escaping (HTTPStatusCode?, [String:String]?) -> Void,
                              onPass: @escaping (HTTPStatusCode?, [String:String]?) -> Void,
                              inProgress: @escaping () -> Void) {
-        if let token = request.headers["Authorization"]!.split(separator: " ").last {
-            do {
+        do {
+            let tokenValue = try request.valued(parameter: "Authorization", source: .header) as String
+            if let token = tokenValue.split(separator: " ").last {
                 let claims: ClaimSet = try JWT.decode(token, algorithm: .hs256(secret.data(using: .utf8)!))
-                if let level = accessLevel(rawValue: claims["accessLevel"] as! String) {
+                let claimValue = claims["accessLevel"] as? String
+                if let level = accessLevel(rawValue: claimValue!) {
                     let profile = UserProfile(id: token, displayName: level.rawValue, provider: "JWT")
                     onSuccess(profile)
                 }else{
                     onFailure(.unauthorized, nil)
-                }
-            } catch {
-                onFailure(.unauthorized, nil)
-            }
+                }}
+        } catch {
+            onFailure(.unauthorized, nil)
         }
     }
 }

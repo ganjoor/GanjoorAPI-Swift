@@ -20,7 +20,7 @@ extension Controller {
     
     public func category(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         do {
-            let id = try request.valuedNumeric(parameter: "id") as Int
+            let id = try request.valuedNumeric(parameter: "id", source: .parameter) as Int
             _ = connection.query(statement: "select * from categories where id = \(id)")
             response.status(.OK).sendutf8(json: JSON(["category": connection.mappedResults, "count": connection.mappedResults.count]))
         }catch let err {
@@ -37,7 +37,7 @@ extension Controller {
     
     public func categoriesByName(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         do {
-            let name = try request.valued(parameter: "name") as String
+            let name = try request.valued(parameter: "name", source: .parameter) as String
             _ = connection.query(statement: "select * from categories where name = \"\(name)\"")
             response.status(.OK).sendutf8(json: JSON(["categories": connection.mappedResults, "count": connection.mappedResults.count]))
         }catch let err {
@@ -57,7 +57,7 @@ extension Controller {
     
     public func poet(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         do {
-            let id = try request.valuedNumeric(parameter: "id") as Int
+            let id = try request.valuedNumeric(parameter: "id", source: .parameter) as Int
             _ = connection.query(statement: "select * from poets where id = \(id)")
             response.status(.OK).sendutf8(json: JSON(["poet": connection.mappedResults, "count": connection.mappedResults.count]))
         }catch let err {
@@ -71,7 +71,7 @@ extension Controller {
 extension Controller {
     public func poemsByCategory(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         do {
-            let id = try request.valuedNumeric(parameter: "id") as Int
+            let id = try request.valuedNumeric(parameter: "id", source: .parameter) as Int
             _ = connection.query(statement: "select * from poems where categoryid = \(id)")
             response.status(.OK).sendutf8(json: JSON(["poems": connection.mappedResults, "count": connection.mappedResults.count]))
         }catch let err {
@@ -82,7 +82,7 @@ extension Controller {
     
     public func poem(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         do {
-            let id = try request.valuedNumeric(parameter: "id") as Int
+            let id = try request.valuedNumeric(parameter: "id", source: .parameter) as Int
             _ = connection.query(statement: "select * from poems where id = \(id)")
             response.status(.OK).sendutf8(json: JSON(["poems": connection.mappedResults, "count": connection.mappedResults.count]))
         }catch let err {
@@ -96,7 +96,7 @@ extension Controller {
 extension Controller {
     public func verses(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         do {
-            let id = try request.valuedNumeric(parameter: "id") as Int
+            let id = try request.valuedNumeric(parameter: "id", source: .parameter) as Int
             _ = connection.query(statement: "select * from verses where poemid = \(id)")
             response.status(.OK).sendutf8(json: JSON(["verses": connection.mappedResults, "count": connection.mappedResults.count]))
         }catch let err {

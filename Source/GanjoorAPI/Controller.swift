@@ -60,8 +60,8 @@ public class Controller {
         let jwt = JWTCredentials(secret: "secret")
         credentials.register(plugin: jwt)
         
-        //        uncomment the line bellow if you want to generate new token on server start
-        //        Log.info("new token with accessLevel developer: \(jwt.generateToken(accessLevel: .developer))")
+        // comment the line bellow if you don't want to generate new token on server start
+        Log.info("new token with accessLevel developer: \(jwt.generateToken(accessLevel: .developer))")
         
         router.all("", middleware: credentials)
         
