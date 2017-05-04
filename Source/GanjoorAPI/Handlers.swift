@@ -13,8 +13,13 @@ import SwiftyJSON
 // MARK: Categories
 extension Controller {
     public func categories(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
-        _ = connection.query(statement: "select * from categories")
-        response.status(.OK).sendutf8(json: JSON(["categories": connection.mappedResults]))
+        do {
+            let offset = try request.valuedNumeric(parameter: "offset", source: .parameter) as Int
+            _ = connection.query(statement: "select * from categories limit 50 offset \(offset)")
+            response.status(.OK).sendutf8(json: JSON(["categories": connection.mappedResults]))
+        }catch let err {
+            response.status(.noContent).send("\(err)")
+        }
         next()
     }
     
