@@ -55,8 +55,13 @@ extension Controller {
 // MARK: Poets
 extension Controller {
     public func poets(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
-        _ = connection.query(statement: "select * from poets")
-        response.status(.OK).sendutf8(json: JSON(["poets": connection.mappedResults]))
+        do {
+            let offset = try request.valuedNumeric(parameter: "offset", source: .parameter) as Int
+            _ = connection.query(statement: "select * from poets limit 50 offset \(offset)")
+            response.status(.OK).sendutf8(json: JSON(["poets": connection.mappedResults]))
+        }catch let err {
+            response.status(.noContent).send("\(err)")
+        }
         next()
     }
     
