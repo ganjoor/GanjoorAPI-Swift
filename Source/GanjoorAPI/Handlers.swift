@@ -40,6 +40,17 @@ extension Controller {
         next()
     }
     
+    public func categoriesByPoet(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+        do {
+            let id = try request.valued(parameter: "id", source: .parameter) as String
+            _ = connection.query(statement: "select * from categories where poetid = \"\(id)\"")
+            response.status(.OK).sendutf8(json: JSON(["categories": connection.mappedResults]))
+        }catch let err {
+            response.status(.noContent).send("\(err)")
+        }
+        next()
+    }
+    
     public func categoriesByName(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
         do {
             let name = try request.valued(parameter: "name", source: .parameter) as String

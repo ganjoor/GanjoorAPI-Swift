@@ -68,6 +68,7 @@ public class Controller {
         router.all("categories", handler: categories)
         router.all("categories/", handler: category)
         router.all("topCategories", handler: topCategories)
+        router.all("categories/byPoet/", handler: categoriesByPoet)
         router.all("categories/byName/", handler: categoriesByName)
         
         router.all("poets", handler: poets)
