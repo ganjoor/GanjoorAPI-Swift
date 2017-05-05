@@ -63,21 +63,21 @@ public class Controller {
         // comment the line bellow if you don't want to generate new token on server start
         Log.info("new token with accessLevel developer: \(jwt.generateToken(accessLevel: .developer))")
         
-        router.all("", middleware: credentials)
+        router.get("", middleware: credentials)
         
-        router.all("categories", handler: categories)
-        router.all("categories/", handler: category)
-        router.all("topCategories", handler: topCategories)
-        router.all("categories/byPoet/", handler: categoriesByPoet)
-        router.all("categories/byName/", handler: categoriesByName)
+        router.get("categories", handler: categories)
+        router.get("categories/", handler: category)
+        router.get("topCategories", handler: topCategories)
+        router.get("categories/byPoet/", handler: categoriesByPoet)
+        router.get("categories/byName/", handler: categoriesByName)
         
-        router.all("poets", handler: poets)
-        router.all("poets/", handler: poet)
+        router.get("poets", handler: poets)
+        router.get("poets/", handler: poet)
         
-        router.all("poems/byCategory/", handler: poemsByCategory)
-        router.all("poems/", handler: poem)
+        router.get("poems/byCategory/", handler: poemsByCategory)
+        router.get("poems/", handler: poem)
         
-        router.all("verses/byPoem/", handler: verses)
+        router.get("verses/byPoem/", handler: verses)
     }
 }
 
